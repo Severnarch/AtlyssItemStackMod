@@ -1,0 +1,9 @@
+{
+    "name": "AtlyssItemStackMod",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/Severnarch/AtlyssItemStackMod",
+    "description": "Higher stack sizes? Why, what a ridiculous idea!",
+    "dependencies": [
+        "BepInEx-BepInExPack-5.4.2304"
+    ]
+}
