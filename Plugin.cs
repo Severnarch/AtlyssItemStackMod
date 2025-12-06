@@ -22,10 +22,13 @@ namespace AtlyssItemStackMod {
 
 			var ScriptableItemCtor = AccessTools.Constructor(typeof(ScriptableItem));
 			_harmony.Patch(ScriptableItemCtor,
-				postfix: new HarmonyMethod(typeof(AtlyssItemStackMod)
-										   .GetMethod(nameof(ScriptableItemCtorPostfix),
-													  BindingFlags.NonPublic |
-													  BindingFlags.Static)));
+				postfix: new HarmonyMethod(
+					typeof(AtlyssItemStackMod).GetMethod(
+						nameof(ScriptableItemCtorPostfix), 
+						BindingFlags.NonPublic | BindingFlags.Static
+					)
+				)
+			);
 
 			_harmony.PatchAll(); 
 			StartCoroutine(GameplayLoop());
