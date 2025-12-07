@@ -9,7 +9,7 @@ namespace AtlyssItemStackMod {
 
 	[BepInPlugin("io.github.severnarch.atlyssitemstackmod",
 				 "AtlyssItemStackMod",
-				 "1.0.0"                                  )]
+				 "1.0.1"                                  )]
 	public class AtlyssItemStackMod : BaseUnityPlugin {
 
 		public static AtlyssItemStackMod Instance { get; private set; }
