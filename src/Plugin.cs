@@ -5,6 +5,7 @@ using System.Reflection;
 using BepInEx;
 using HarmonyLib;
 using UnityEngine;
+using Mirror;
 
 namespace AtlyssItemStackMod {
 
@@ -32,7 +33,7 @@ namespace AtlyssItemStackMod {
 					)
 				)
 			);
-			var DropItemMthd = AccessTools.Method(typeof(ItemMenuCell), "PromptCmd_DropItem");
+			var DropItemMthd = AccessTools.Method(typeof(PlayerInventory), "Cmd_DropItem");
 			_harmony.Patch(DropItemMthd,
 				prefix: new HarmonyMethod(
 					typeof(AtlyssItemStackMod).GetMethod(
@@ -58,11 +59,28 @@ namespace AtlyssItemStackMod {
 			}
 		}
 
-		private static bool DropItemPrefix(ref int _quantity, ItemData _itemData) {
+		private static bool DropItemPrefix(PlayerInventory __instance, ref int _quantity, ItemData _itemData) {
 			var _itemName = _itemData._itemName;
 
+			int diff = 0;
 			if (_quantity > _originalMaxStack[_itemName]) {
+				diff = _quantity - _originalMaxStack[_itemName];
 				_quantity = _originalMaxStack[_itemName];
+			}
+
+			if (diff > 0) {
+				var newItemData = new ItemData{
+						_itemName = _itemData._itemName,
+						_quantity = diff,
+						_maxQuantity = _itemData._maxQuantity,
+						_slotNumber = _itemData._slotNumber,
+						_modifierID = _itemData._modifierID,
+						_damageTypeOverride = _itemData._damageTypeOverride,
+						_useDamageTypeOverride = _itemData._useDamageTypeOverride,
+						_isEquipped = _itemData._isEquipped,
+						_isAltWeapon = _itemData._isAltWeapon
+				};
+				__instance.Add_Item(newItemData, true);
 			}
 
 			return true;
